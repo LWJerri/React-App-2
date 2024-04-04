@@ -3,7 +3,7 @@ import { Request } from "express";
 import { PrismaService } from "../../prisma/prisma.service";
 
 @Injectable()
-export class GetListGuard implements CanActivate {
+export class GetBoardListGuard implements CanActivate {
   constructor(private readonly prismaService: PrismaService) {}
 
   async canActivate(context: ExecutionContext) {
@@ -14,7 +14,7 @@ export class GetListGuard implements CanActivate {
       select: { id: true },
     });
 
-    if (!isBoardExists) throw new BadRequestException("A board with this id not found.");
+    if (!isBoardExists) throw new BadRequestException("No board with this Id was found.");
 
     return true;
   }

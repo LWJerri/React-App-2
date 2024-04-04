@@ -16,11 +16,11 @@ import { ResponseListDto } from "./dto/response.dto";
 import { ResponseListWithTaskFieldDto } from "./dto/responseWithTaskField.dto";
 import { CreateListGuard } from "./guards/create.guard";
 import { DeleteListGuard } from "./guards/delete.guard";
-import { GetListGuard } from "./guards/get.guard";
+import { GetBoardListGuard } from "./guards/getBoard.guard";
 import { PatchListGuard } from "./guards/patch.guard";
 import { ListService } from "./list.service";
 
-@Controller(":boardId/lists")
+@Controller("boards/:boardId/lists")
 export class ListController {
   constructor(private readonly listService: ListService) {}
 
@@ -38,7 +38,7 @@ export class ListController {
     example: "clulfeu4j000108jj6g84808l",
     description: "Specify the board Id for which you wanna get lists.",
   })
-  @UseGuards(GetListGuard)
+  @UseGuards(GetBoardListGuard)
   getLists(@Param("boardId") boardId: string) {
     return this.listService.getLists(boardId);
   }
@@ -59,7 +59,7 @@ export class ListController {
     example: "clulff7ng000208jjh0vt0ecd",
     description: "Specify the board Id for which you wanna create list.",
   })
-  @UseGuards(GetListGuard, CreateListGuard)
+  @UseGuards(GetBoardListGuard, CreateListGuard)
   createList(@Body() body: CreateListDto, @Param("boardId") boardId: string) {
     return this.listService.createList(body, boardId);
   }
@@ -84,7 +84,7 @@ export class ListController {
     example: "clulfgx0j000408jjfmdz8fj7",
     description: "Specify the board Id for which you wanna edit list.",
   })
-  @UseGuards(GetListGuard, PatchListGuard)
+  @UseGuards(GetBoardListGuard, PatchListGuard)
   patchList(@Body() body: PatchListDto, @Param("id") id: string, @Param("boardId") boardId: string) {
     return this.listService.patchList(body, id, boardId);
   }
@@ -108,7 +108,7 @@ export class ListController {
     example: "clulfhtn0000608jjc7t011sb",
     description: "Specify the board Id for which you wanna edit list.",
   })
-  @UseGuards(GetListGuard, DeleteListGuard)
+  @UseGuards(GetBoardListGuard, DeleteListGuard)
   deleteList(@Param("id") id: string, @Param("boardId") boardId: string) {
     return this.listService.deleteList(id, boardId);
   }
