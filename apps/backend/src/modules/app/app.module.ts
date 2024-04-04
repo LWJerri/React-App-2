@@ -10,10 +10,10 @@ import { TaskModule } from "../task/task.module";
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     LoggerModule.forRoot(),
+    BoardModule,
     ListModule,
     TaskModule,
     AuditModule,
-    BoardModule,
   ],
 })
 export class AppModule {}
