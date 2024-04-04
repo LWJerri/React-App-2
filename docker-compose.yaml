@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  postgres:
+    restart: always
+    image: postgres:14.5
+    environment:
+      POSTGRES_USER: "task_user_v2"
+      POSTGRES_PASSWORD: "task_password_v2"
+      POSTGRES_DB: "task_manager_v2"
+
+  backend:
+    restart: always
+    build:
+      context: ./
+      dockerfile: ./apps/backend/Dockerfile
+    environment:
+      PORT: "3000"
+      DATABASE_URL: "postgres://task_user_v2:task_password_v2@postgres/task_manager_v2?schema=public"
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+
+  frontend:
+    restart: always
+    build:
+      context: ./
+      dockerfile: ./apps/frontend/Dockerfile
+      args:
+        VITE_API_URL: "http://localhost:3000"
+    ports:
+      - 3005:8080
+    depends_on:
+      - backend
