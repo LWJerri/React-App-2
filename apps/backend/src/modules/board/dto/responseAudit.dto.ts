@@ -43,5 +43,5 @@ export class BaseResponseAuditDto {
   readonly createdAt: Date;
 }
 
-export class ResponseAuditDto extends IntersectionType(BaseResponseAuditDto, AuditListAndTaskTypesDto) {}
-export class ResponseAuditTaskDto extends IntersectionType(BaseResponseAuditDto, AuditTaskTypeDto) {}
+export class ResponseBoardAuditDto extends IntersectionType(BaseResponseAuditDto, AuditListAndTaskTypesDto) {}
+export class ResponseBoardAuditTaskDto extends IntersectionType(BaseResponseAuditDto, AuditTaskTypeDto) {}

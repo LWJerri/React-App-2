@@ -13,15 +13,36 @@ import { responseStatus } from "src/helpers/constants";
 import { BoardService } from "./board.service";
 import { CreateBoardDto } from "./dto/create.dto";
 import { PatchBoardDto } from "./dto/patch.dto";
-import { ResponseBoardDto } from "./dto/response.dto";
+import { ResponseBoardAuditDto } from "./dto/responseAudit.dto";
+import { ResponseBoardDto } from "./dto/responseBoards.dto";
 import { ResponseBoardWithListFieldDto } from "./dto/responseWithListField.dto";
 import { CreateBoardGuard } from "./guards/create.guard";
 import { DeleteBoardGuard } from "./guards/delete.guard";
+import { GetBoardAuditGuard } from "./guards/getAudit.guard";
 import { PatchBoardGuard } from "./guards/patch.guard";
 
 @Controller("boards")
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
+
+  @Get("/audit/:id")
+  @ApiOperation({
+    summary: "Get audit log",
+    tags: ["Boards Endpoints"],
+    description: "This request will return the entire history of actions on lists and tasks.",
+  })
+  @ApiOkResponse({ type: ResponseBoardAuditDto, isArray: true, description: responseStatus["success"] })
+  @ApiBadRequestResponse({ type: FallbackResponse, description: responseStatus["error"] })
+  @ApiInternalServerErrorResponse({ type: FallbackResponse, description: responseStatus["error"] })
+  @ApiParam({
+    name: "id",
+    example: "clulefm59000108l9fnpr6w7t",
+    description: "Provide board Id which you want to get audit.",
+  })
+  @UseGuards(GetBoardAuditGuard)
+  getAudit(@Param("id") boardId: string) {
+    return this.boardService.getAudit(boardId);
+  }
 
   @Get()
   @ApiOperation({
