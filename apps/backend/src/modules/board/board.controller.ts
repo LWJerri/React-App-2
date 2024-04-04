@@ -24,7 +24,7 @@ import { PatchBoardGuard } from "./guards/patch.guard";
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
-  @Get("/audit/:id")
+  @Get(":id/audit")
   @ApiOperation({
     summary: "Get audit log",
     tags: ["Boards Endpoints"],
