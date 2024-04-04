@@ -1,4 +1,4 @@
-import { BadRequestException, CanActivate, ExecutionContext, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { Request } from "express";
 import { PrismaService } from "../../prisma/prisma.service";
 import { PatchBoardDto } from "../dto/patch.dto";
@@ -15,9 +15,7 @@ export class PatchBoardGuard implements CanActivate {
       select: { name: true },
     });
 
-    if (!isBoardExists) throw new NotFoundException("No board with this Id was found.");
-
-    if (isBoardExists.name === String(body.name)) {
+    if (isBoardExists!.name === String(body.name)) {
       throw new BadRequestException("New board name cannot be as the current name.");
     }
 

@@ -3,7 +3,7 @@ import { Request } from "express";
 import { PrismaService } from "../../prisma/prisma.service";
 
 @Injectable()
-export class DeleteBoardGuard implements CanActivate {
+export class GetBoardGuard implements CanActivate {
   constructor(private readonly prismaService: PrismaService) {}
 
   async canActivate(context: ExecutionContext) {

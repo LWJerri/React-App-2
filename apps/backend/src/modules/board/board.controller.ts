@@ -17,8 +17,7 @@ import { ResponseBoardAuditDto } from "./dto/responseAudit.dto";
 import { ResponseBoardDto } from "./dto/responseBoards.dto";
 import { ResponseBoardWithListFieldDto } from "./dto/responseWithListField.dto";
 import { CreateBoardGuard } from "./guards/create.guard";
-import { DeleteBoardGuard } from "./guards/delete.guard";
-import { GetBoardAuditGuard } from "./guards/getAudit.guard";
+import { GetBoardGuard } from "./guards/get.guard";
 import { PatchBoardGuard } from "./guards/patch.guard";
 
 @Controller("boards")
@@ -39,7 +38,7 @@ export class BoardController {
     example: "clulefm59000108l9fnpr6w7t",
     description: "Provide board Id which you want to get audit.",
   })
-  @UseGuards(GetBoardAuditGuard)
+  @UseGuards(GetBoardGuard)
   getAudit(@Param("id") boardId: string) {
     return this.boardService.getAudit(boardId);
   }
@@ -88,7 +87,7 @@ export class BoardController {
     example: "clulde05k000008jncx4qaduv",
     description: "Specify the Id of the board to be edited.",
   })
-  @UseGuards(PatchBoardGuard)
+  @UseGuards(GetBoardGuard, PatchBoardGuard)
   patchBoard(@Body() body: PatchBoardDto, @Param("id") id: string) {
     return this.boardService.patchBoard(body, id);
   }
@@ -107,7 +106,7 @@ export class BoardController {
     example: "cluldezu7000108jnfpb9g3s5",
     description: "Specify the Id of the board to be deleted.",
   })
-  @UseGuards(DeleteBoardGuard)
+  @UseGuards(GetBoardGuard)
   deleteBoard(@Param("id") id: string) {
     return this.boardService.deleteBoard(id);
   }
