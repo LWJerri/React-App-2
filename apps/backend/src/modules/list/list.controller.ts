@@ -84,7 +84,7 @@ export class ListController {
     example: "clulfgx0j000408jjfmdz8fj7",
     description: "Specify the board Id for which you wanna edit list.",
   })
-  @UseGuards(GetBoardListGuard, PatchListGuard)
+  @UseGuards(GetBoardListGuard, PatchListGuard, CreateListGuard)
   patchList(@Body() body: PatchListDto, @Param("id") id: string, @Param("boardId") boardId: string) {
     return this.listService.patchList(body, id, boardId);
   }

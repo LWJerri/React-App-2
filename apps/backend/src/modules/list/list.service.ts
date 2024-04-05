@@ -76,7 +76,10 @@ export class ListService {
   }
 
   async deleteList(id: string, boardId: string) {
-    const list = await this.prismaService.list.delete({ where: { id, boardId } });
+    const list = await this.prismaService.list.update({
+      where: { id, boardId },
+      data: { isDeleted: true, updatedAt: new Date() },
+    });
 
     await this.prismaService.auditLog.create({
       data: {

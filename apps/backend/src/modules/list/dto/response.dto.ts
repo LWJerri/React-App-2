@@ -16,6 +16,9 @@ export class ResponseListDto {
   @ApiProperty({ example: "clulf690q000108jw8ezqf3rf", description: "Unique Id of board which list is linked." })
   boardId: string;
 
+  @ApiProperty({ example: false, description: "Is this list deleted or no. This field used for history." })
+  isDeleted: boolean;
+
   @ApiProperty({ example: 0, description: "Number of tasks in the list." })
   readonly task: number;
 }
