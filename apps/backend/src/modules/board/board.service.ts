@@ -19,6 +19,7 @@ export class BoardService {
       select: {
         action: true,
         relatedModel: true,
+        relatedId: true,
         affectedField: true,
         createdAt: true,
         newState: true,
@@ -35,6 +36,7 @@ export class BoardService {
       affectedField: log.affectedField,
       createdAt: log.createdAt,
       relatedModel: log.relatedModel,
+      relatedId: log.relatedId,
     }));
 
     return response;

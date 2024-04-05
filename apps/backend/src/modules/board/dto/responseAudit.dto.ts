@@ -36,6 +36,9 @@ export class BaseResponseAuditDto {
   @ApiProperty({ example: Model.TASK, enum: Model, description: "The model that was acted upon." })
   relatedModel: Model;
 
+  @ApiProperty({ example: "clun97g8j000008kz2upaf5te", description: "The record Id where changes has occurred." })
+  relatedId: string;
+
   @ApiProperty({ example: "name", description: "What exactly was changed in the record." })
   readonly affectedField: string;
 
