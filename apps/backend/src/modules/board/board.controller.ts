@@ -18,7 +18,6 @@ import { ResponseBoardDto } from "./dto/responseBoards.dto";
 import { ResponseBoardWithListFieldDto } from "./dto/responseWithListField.dto";
 import { CreateBoardGuard } from "./guards/create.guard";
 import { GetBoardGuard } from "./guards/get.guard";
-import { PatchBoardGuard } from "./guards/patch.guard";
 
 @Controller("boards")
 export class BoardController {
@@ -87,7 +86,7 @@ export class BoardController {
     example: "clulde05k000008jncx4qaduv",
     description: "Specify the Id of the board to be edited.",
   })
-  @UseGuards(GetBoardGuard, PatchBoardGuard)
+  @UseGuards(GetBoardGuard, CreateBoardGuard)
   patchBoard(@Body() body: PatchBoardDto, @Param("id") id: string) {
     return this.boardService.patchBoard(body, id);
   }
