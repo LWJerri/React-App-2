@@ -1,7 +1,7 @@
 import { ApiExtraModels, ApiProperty, IntersectionType, getSchemaPath } from "@nestjs/swagger";
 import { Action, Model } from "@prisma/client";
-import { ResponseListDto } from "src/modules/list/dto/response.dto";
-import { ResponseTaskDto } from "src/modules/task/dto/response.dto";
+import { ResponseListDto } from "../../../modules/list/dto/response.dto";
+import { ResponseTaskDto } from "../../../modules/task/dto/response.dto";
 
 @ApiExtraModels(ResponseListDto, ResponseTaskDto)
 class AuditListAndTaskTypesDto {

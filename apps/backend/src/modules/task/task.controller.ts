@@ -7,8 +7,8 @@ import {
   ApiOperation,
   ApiParam,
 } from "@nestjs/swagger";
-import { FallbackResponse } from "src/helpers/FallbackResponse";
-import { responseStatus } from "src/helpers/constants";
+import { FallbackResponse } from "../../helpers/FallbackResponse";
+import { responseStatus } from "../../helpers/constants";
 import { ResponseBoardAuditTaskDto } from "../board/dto/responseAudit.dto";
 import { GetBoardListGuard } from "../list/guards/getBoard.guard";
 import { CreateTaskDto } from "./dto/create.dto";

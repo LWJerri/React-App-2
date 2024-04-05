@@ -8,8 +8,8 @@ import {
   ApiParam,
   OmitType,
 } from "@nestjs/swagger";
-import { FallbackResponse } from "src/helpers/FallbackResponse";
-import { responseStatus } from "src/helpers/constants";
+import { FallbackResponse } from "../../helpers/FallbackResponse";
+import { responseStatus } from "../../helpers/constants";
 import { BoardService } from "./board.service";
 import { CreateBoardDto } from "./dto/create.dto";
 import { PatchBoardDto } from "./dto/patch.dto";

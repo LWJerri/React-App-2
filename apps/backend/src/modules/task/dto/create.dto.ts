@@ -1,8 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Priority } from "@prisma/client";
 import { IsDateString, IsEnum, MaxLength, MinLength } from "class-validator";
-import { IsAfterNow } from "src/validators/IsAfterNow";
-import { IsNotEmptyString } from "src/validators/IsNotEmptyString";
+import { IsAfterNow } from "../../../validators/IsAfterNow";
+import { IsNotEmptyString } from "../../../validators/IsNotEmptyString";
 
 export class CreateTaskDto {
   @ApiProperty({ example: "My awesome task 💖", description: "Title for the task.", minimum: 3, maximum: 20 })
