@@ -6,6 +6,7 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiParam,
+  OmitType,
 } from "@nestjs/swagger";
 import { FallbackResponse } from "../../helpers/FallbackResponse";
 import { responseStatus } from "../../helpers/constants";
@@ -53,7 +54,11 @@ export class TaskController {
     tags: ["Tasks Endpoints"],
     description: "This endpoint will return a list of all changes that are associated with the specified task.",
   })
-  @ApiOkResponse({ type: ResponseBoardAuditTaskDto, isArray: true, description: responseStatus["success"] })
+  @ApiOkResponse({
+    type: OmitType(ResponseBoardAuditTaskDto, ["relatedId"]),
+    isArray: true,
+    description: responseStatus["success"],
+  })
   @ApiBadRequestResponse({ type: FallbackResponse, description: responseStatus["error"] })
   @ApiInternalServerErrorResponse({ type: FallbackResponse, description: responseStatus["error"] })
   @ApiParam({

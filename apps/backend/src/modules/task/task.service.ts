@@ -29,7 +29,7 @@ export class TaskService {
     return response;
   }
 
-  async getAudit(boardId: string, taskId: string): Promise<ResponseBoardAuditTaskDto[]> {
+  async getAudit(boardId: string, taskId: string): Promise<Omit<ResponseBoardAuditTaskDto, "relatedId">[]> {
     const retrieveAuditLog = await this.prismaService.auditLog.findMany({
       where: { relatedId: taskId, relatedModel: "TASK", boardId },
       orderBy: { createdAt: "desc" },
@@ -43,7 +43,7 @@ export class TaskService {
       },
     });
 
-    const response: ResponseBoardAuditTaskDto[] = retrieveAuditLog.map((log) => ({
+    const response: Omit<ResponseBoardAuditTaskDto, "relatedId">[] = retrieveAuditLog.map((log) => ({
       oldState: log.oldState as unknown as ResponseTaskDto,
       newState: log.newState as unknown as ResponseTaskDto,
       boardId,
