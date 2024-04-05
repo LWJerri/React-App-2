@@ -7,10 +7,12 @@ export class GetTaskGuard implements CanActivate {
   constructor(private readonly prismaService: PrismaService) {}
 
   async canActivate(context: ExecutionContext) {
-    const { params } = context.switchToHttp().getRequest<Request<{ id: string; boardId: string }>>();
+    const { params } = context.switchToHttp().getRequest<Request<{ id: string; boardId: string; listId: string }>>();
+
+    const { boardId, listId, id } = params;
 
     const isTaskExists = await this.prismaService.task.findUnique({
-      where: { id: params.id, list: { boardId: params.boardId } },
+      where: { id, list: { boardId }, listId },
       select: { id: true },
     });
 

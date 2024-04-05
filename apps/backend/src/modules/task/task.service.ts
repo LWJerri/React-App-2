@@ -80,7 +80,7 @@ export class TaskService {
     const oldState = prepOldState!;
 
     const task = await this.prismaService.task.update({
-      where: { id: taskId, listId, list: { boardId } },
+      where: { id: taskId, list: { boardId }, listId },
       data: { ...body, updatedAt: new Date() },
     });
 
