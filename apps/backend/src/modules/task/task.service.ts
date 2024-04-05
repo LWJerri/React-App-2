@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { Prisma, Task } from "@prisma/client";
+import { Task } from "@prisma/client";
 import { updatedDiff } from "deep-object-diff";
+import { AuditService } from "../audit/audit.service";
 import { ResponseBoardAuditTaskDto } from "../board/dto/responseAudit.dto";
 import { PrismaService } from "../prisma/prisma.service";
 import { CreateTaskDto } from "./dto/create.dto";
@@ -9,7 +10,10 @@ import { ResponseTaskDto } from "./dto/response.dto";
 
 @Injectable()
 export class TaskService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly auditService: AuditService,
+  ) {}
 
   async getTasks(boardId: string, listId: string): Promise<ResponseTaskDto[]> {
     const tasks = await this.prismaService.task.findMany({
@@ -61,16 +65,7 @@ export class TaskService {
   async createTask(body: CreateTaskDto, boardId: string, listId: string): Promise<ResponseTaskDto> {
     const task = await this.prismaService.task.create({ data: { ...body, listId } });
 
-    await this.prismaService.auditLog.create({
-      data: {
-        action: "CREATE",
-        boardId,
-        affectedField: "name",
-        relatedId: task.id,
-        relatedModel: "TASK",
-        newState: task,
-      },
-    });
+    await this.auditService.createLog("CREATE", boardId, "name", task.id, "TASK", task);
 
     return { ...task, boardId };
   }
@@ -89,17 +84,9 @@ export class TaskService {
     const prepNewChanges = updatedDiff(oldState, task);
     const newChanges = Object.keys(prepNewChanges).filter((key) => key !== updatedAtKey);
 
-    const auditLogData: Prisma.AuditLogCreateManyInput[] = newChanges.map((key) => ({
-      action: "EDIT",
-      boardId,
-      affectedField: key,
-      relatedId: task.id,
-      relatedModel: "TASK",
-      newState: task,
-      oldState,
-    }));
-
-    await this.prismaService.auditLog.createMany({ data: auditLogData });
+    newChanges.map(async (key) => {
+      await this.auditService.createLog("EDIT", boardId, key, task.id, "TASK", task, oldState);
+    });
 
     return { ...task, boardId };
   }
@@ -107,15 +94,6 @@ export class TaskService {
   async deleteTask(boardId: string, listId: string, taskId: string) {
     const task = await this.prismaService.task.delete({ where: { id: taskId, list: { boardId }, listId } });
 
-    await this.prismaService.auditLog.create({
-      data: {
-        action: "DELETE",
-        boardId,
-        affectedField: "name",
-        relatedId: task.id,
-        relatedModel: "TASK",
-        oldState: task,
-      },
-    });
+    await this.auditService.createLog("DELETE", boardId, "name", task.id, "TASK", task);
   }
 }

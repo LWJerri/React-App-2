@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { List, Prisma } from "@prisma/client";
+import { List } from "@prisma/client";
 import { updatedDiff } from "deep-object-diff";
+import { AuditService } from "../audit/audit.service";
 import { PrismaService } from "../prisma/prisma.service";
 import { CreateListDto } from "./dto/create.dto";
 import { PatchListDto } from "./dto/patch.dto";
@@ -9,7 +10,10 @@ import { ResponseListWithTaskFieldDto } from "./dto/responseWithTaskField.dto";
 
 @Injectable()
 export class ListService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly auditService: AuditService,
+  ) {}
 
   async getLists(boardId: string): Promise<ResponseListWithTaskFieldDto[]> {
     const retrieveLists = await this.prismaService.list.findMany({
@@ -30,16 +34,7 @@ export class ListService {
   async createList(body: CreateListDto, boardId: string): Promise<Omit<ResponseListDto, "task">> {
     const list = await this.prismaService.list.create({ data: { ...body, boardId } });
 
-    await this.prismaService.auditLog.create({
-      data: {
-        action: "CREATE",
-        boardId,
-        affectedField: "name",
-        relatedId: list.id,
-        relatedModel: "LIST",
-        newState: list,
-      },
-    });
+    await this.auditService.createLog("CREATE", boardId, "name", list.id, "LIST", list);
 
     return list;
   }
@@ -60,17 +55,9 @@ export class ListService {
     const prepNewChanges = updatedDiff(oldState, prepList);
     const newChanges = Object.keys(prepNewChanges).filter((key) => key !== updatedAtKey);
 
-    const auditLogData: Prisma.AuditLogCreateManyInput[] = newChanges.map((key) => ({
-      action: "EDIT",
-      boardId,
-      affectedField: key,
-      relatedId: prepList.id,
-      relatedModel: "LIST",
-      newState: prepList,
-      oldState,
-    }));
-
-    await this.prismaService.auditLog.createMany({ data: auditLogData });
+    newChanges.map(async (key) => {
+      await this.auditService.createLog("EDIT", boardId, key, prepList.id, "LIST", prepList, oldState);
+    });
 
     return { ...fields, ..._count };
   }
@@ -81,15 +68,6 @@ export class ListService {
       data: { isDeleted: true, updatedAt: new Date() },
     });
 
-    await this.prismaService.auditLog.create({
-      data: {
-        action: "DELETE",
-        boardId,
-        affectedField: "name",
-        relatedId: list.id,
-        relatedModel: "LIST",
-        oldState: list,
-      },
-    });
+    await this.auditService.createLog("DELETE", boardId, "name", list.id, "LIST", list);
   }
 }
