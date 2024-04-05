@@ -40,8 +40,9 @@ model List {
   name      String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
+  isDeleted Boolean  @default(false) @map("is_deleted")
   boardId   String
-  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   task      Task[]
 
   @@map("lists")
@@ -56,7 +57,7 @@ model Task {
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @default(now()) @map("updated_at")
   listId      String   @map("list_id")
-  list        List     @relation(fields: [listId], references: [id], onDelete: Cascade)
+  list        List     @relation(fields: [listId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("tasks")
 }
