@@ -18,7 +18,4 @@ export class ResponseListDto {
 
   @ApiProperty({ example: false, description: "Is this list deleted or no. This field used for history." })
   isDeleted: boolean;
-
-  @ApiProperty({ example: 0, description: "Number of tasks in the list." })
-  readonly task: number;
 }
