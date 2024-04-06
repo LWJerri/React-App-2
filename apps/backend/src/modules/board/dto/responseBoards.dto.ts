@@ -12,7 +12,4 @@ export class ResponseBoardDto {
 
   @ApiProperty({ example: new Date().toISOString(), description: "Date the board was updated." })
   readonly updatedAt: Date;
-
-  @ApiProperty({ example: 0, description: "Number of lists in the board." })
-  readonly list: number;
 }
