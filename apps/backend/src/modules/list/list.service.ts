@@ -56,7 +56,7 @@ export class ListService {
     const newChanges = Object.keys(prepNewChanges).filter((key) => key !== updatedAtKey);
 
     newChanges.map(async (key) => {
-      await this.auditService.createLog("EDIT", boardId, prepList.id, key, "LIST", prepList, oldState);
+      await this.auditService.createLog("EDIT", boardId, fields.id, key, "LIST", fields, oldState);
     });
 
     return { ...fields, ..._count };
