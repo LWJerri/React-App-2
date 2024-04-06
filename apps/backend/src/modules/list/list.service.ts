@@ -39,7 +39,7 @@ export class ListService {
     return list;
   }
 
-  async patchList(body: PatchListDto, id: string, boardId: string): Promise<ResponseListDto> {
+  async patchList(body: PatchListDto, boardId: string, id: string): Promise<ResponseListDto> {
     const prepOldState = await this.prismaService.list.findUnique({ where: { id, boardId } });
     const oldState = prepOldState!;
 
@@ -62,7 +62,7 @@ export class ListService {
     return { ...fields, ..._count };
   }
 
-  async deleteList(id: string, boardId: string) {
+  async deleteList(boardId: string, id: string) {
     const list = await this.prismaService.list.update({
       where: { id, boardId },
       data: { isDeleted: true, updatedAt: new Date() },

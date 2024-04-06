@@ -37,8 +37,8 @@ export class BoardController {
     description: "Provide board Id which you want to get audit.",
   })
   @UseGuards(GetBoardGuard)
-  getAudit(@Param("id") boardId: string) {
-    return this.boardService.getAudit(boardId);
+  getAudit(@Param("id") id: string) {
+    return this.boardService.getAudit(id);
   }
 
   @Get()

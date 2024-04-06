@@ -74,18 +74,18 @@ export class ListController {
   @ApiInternalServerErrorResponse({ type: FallbackResponse, description: responseStatus["error"] })
   @ApiBody({ type: PatchListDto })
   @ApiParam({
-    name: "id",
-    example: "clulfgqi0000308jja6j594sd",
-    description: "Specify the Id of the list to be edited.",
-  })
-  @ApiParam({
     name: "boardId",
     example: "clulfgx0j000408jjfmdz8fj7",
     description: "Specify the board Id for which you wanna edit list.",
   })
+  @ApiParam({
+    name: "id",
+    example: "clulfgqi0000308jja6j594sd",
+    description: "Specify the Id of the list to be edited.",
+  })
   @UseGuards(GetBoardListGuard, PatchListGuard, CreateListGuard)
-  patchList(@Body() body: PatchListDto, @Param("id") id: string, @Param("boardId") boardId: string) {
-    return this.listService.patchList(body, id, boardId);
+  patchList(@Body() body: PatchListDto, @Param("boardId") boardId: string, @Param("id") id: string) {
+    return this.listService.patchList(body, boardId, id);
   }
 
   @Delete(":id")
@@ -98,17 +98,17 @@ export class ListController {
   @ApiBadRequestResponse({ type: FallbackResponse, description: responseStatus["error"] })
   @ApiInternalServerErrorResponse({ type: FallbackResponse, description: responseStatus["error"] })
   @ApiParam({
-    name: "id",
-    example: "clulfhnzr000508jjai8k7mfw",
-    description: "Specify the Id of the list to be deleted.",
-  })
-  @ApiParam({
     name: "boardId",
     example: "clulfhtn0000608jjc7t011sb",
     description: "Specify the board Id for which you wanna edit list.",
   })
+  @ApiParam({
+    name: "id",
+    example: "clulfhnzr000508jjai8k7mfw",
+    description: "Specify the Id of the list to be deleted.",
+  })
   @UseGuards(GetBoardListGuard, DeleteListGuard)
-  deleteList(@Param("id") id: string, @Param("boardId") boardId: string) {
-    return this.listService.deleteList(id, boardId);
+  deleteList(@Param("boardId") boardId: string, @Param("id") id: string) {
+    return this.listService.deleteList(boardId, id);
   }
 }

@@ -44,7 +44,7 @@ export class TaskController {
     example: "cluljfu0k000008l3g2na0xxs",
     description: "Specify the list Id for which you want to retrieve tasks.",
   })
-  getTasks(@Param("listId") listId: string, @Param("boardId") boardId: string) {
+  getTasks(@Param("boardId") boardId: string, @Param("listId") listId: string) {
     return this.taskService.getTasks(boardId, listId);
   }
 
@@ -77,8 +77,8 @@ export class TaskController {
     description: "Specify the task Id for which you want to get audit log.",
   })
   @UseGuards(GetTaskGuard)
-  getAudit(@Param("boardId") boardId: string, @Param("id") id: string) {
-    return this.taskService.getAudit(boardId, id);
+  getAudit(@Param("boardId") boardId: string, @Param("id") taskId: string) {
+    return this.taskService.getAudit(boardId, taskId);
   }
 
   @Get(":id")

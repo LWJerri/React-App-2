@@ -56,8 +56,8 @@ export class TaskService {
     return response;
   }
 
-  async getTask(boardId: string, listId: string, taskId: string): Promise<ResponseTaskDto> {
-    const task = await this.prismaService.task.findUnique({ where: { id: taskId, listId, list: { boardId } } });
+  async getTask(boardId: string, listId: string, id: string): Promise<ResponseTaskDto> {
+    const task = await this.prismaService.task.findUnique({ where: { id, listId, list: { boardId } } });
 
     return { ...task!, boardId };
   }
@@ -70,12 +70,12 @@ export class TaskService {
     return { ...task, boardId };
   }
 
-  async patchTask(body: PatchTaskDto, boardId: string, listId: string, taskId: string): Promise<ResponseTaskDto> {
-    const prepOldState = await this.prismaService.task.findUnique({ where: { id: taskId, list: { boardId }, listId } });
+  async patchTask(body: PatchTaskDto, boardId: string, listId: string, id: string): Promise<ResponseTaskDto> {
+    const prepOldState = await this.prismaService.task.findUnique({ where: { id, list: { boardId }, listId } });
     const oldState = prepOldState!;
 
     const task = await this.prismaService.task.update({
-      where: { id: taskId, list: { boardId }, listId },
+      where: { id, list: { boardId }, listId },
       data: { ...body, updatedAt: new Date() },
     });
 
@@ -91,8 +91,8 @@ export class TaskService {
     return { ...task, boardId };
   }
 
-  async deleteTask(boardId: string, listId: string, taskId: string) {
-    const task = await this.prismaService.task.delete({ where: { id: taskId, list: { boardId }, listId } });
+  async deleteTask(boardId: string, listId: string, id: string) {
+    const task = await this.prismaService.task.delete({ where: { id, list: { boardId }, listId } });
 
     await this.auditService.createLog("DELETE", boardId, task.id, "name", "TASK", task);
   }
