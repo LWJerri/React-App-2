@@ -11,9 +11,12 @@ export class DeleteListGuard implements CanActivate {
 
     const { id, boardId } = params;
 
-    const isListExists = await this.prismaService.list.findUnique({ where: { id, boardId }, select: { id: true } });
+    const isListExists = await this.prismaService.list.findUnique({
+      where: { id, boardId },
+      select: { isDeleted: true },
+    });
 
-    if (!isListExists) throw new NotFoundException("No list with this Id was found.");
+    if (!isListExists || isListExists.isDeleted) throw new NotFoundException("No list with this Id was found.");
 
     return true;
   }
