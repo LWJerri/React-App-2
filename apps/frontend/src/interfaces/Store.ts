@@ -1,7 +1,19 @@
+import { Board } from "@/types/Board";
 import { List } from "@/types/List";
 import { Task } from "@/types/Task";
 
 export interface Store {
+  actualBoardId: string;
+  getActualBoardId: () => string;
+  setActualBoardId: (boardId: string) => void;
+
+  boards: Board[];
+  getBoards: () => Board[];
+  getBoard: (boardId: string) => Board;
+  addBoards: (boards: Board[]) => void;
+  updateBoard: (board: Board) => void;
+  removeBoard: (boardId: string) => void;
+
   lists: List[];
   getLists: () => List[];
   getList: (listId: string) => List;

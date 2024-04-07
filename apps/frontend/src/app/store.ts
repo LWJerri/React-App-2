@@ -1,11 +1,30 @@
 import { Store } from "@/interfaces/Store";
+import { Board } from "@/types/Board";
 import { List } from "@/types/List";
 import { Task } from "@/types/Task";
 import { create } from "zustand";
 
 export const store = create<Store>((set, get) => ({
+  actualBoardId: "",
+  getActualBoardId: () => get().actualBoardId,
+  setActualBoardId: (boardId: string) => set(() => ({ actualBoardId: boardId })),
+
+  boards: [],
+  getBoards: () => get().boards,
+  getBoard: (boardId: string) => get().boards.find((board) => board.id === boardId)!,
+  addBoards: (newBoards: Board[]) =>
+    set(({ boards }) => ({
+      boards: [...newBoards]
+        .filter((newBoard) => !boards.map((board) => board.id).includes(newBoard.id))
+        .concat(boards),
+    })),
+  updateBoard: (updatedBoard: Board) => {
+    set(({ boards }) => ({ boards: boards.map((board) => (board.id === updatedBoard.id ? updatedBoard : board)) }));
+  },
+  removeBoard: (boardId: string) => set(({ boards }) => ({ boards: boards.filter((board) => board.id !== boardId) })),
+
   lists: [],
-  getLists: () => get().lists,
+  getLists: () => get().lists.filter((list) => list.boardId === get().actualBoardId),
   getList: (listId: string) => get().lists.find((list) => list.id === listId)!,
   addLists: (newLists: List[]) =>
     set(({ lists }) => ({
@@ -17,7 +36,8 @@ export const store = create<Store>((set, get) => ({
   removeList: (listId: string) => set(({ lists }) => ({ lists: lists.filter((list) => list.id !== listId) })),
 
   tasks: [],
-  getTasks: (listId: string) => get().tasks.filter((task) => task.listId === listId),
+  getTasks: (listId: string) =>
+    get().tasks.filter((task) => task.listId === listId && task.boardId === get().actualBoardId),
   getTask: (taskId: string) => get().tasks.find((task) => task.id === taskId)!,
   addTasks: (newTasks: Task[]) => {
     set(({ tasks }) => ({
