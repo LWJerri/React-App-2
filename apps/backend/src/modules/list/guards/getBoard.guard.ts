@@ -1,4 +1,4 @@
-import { BadRequestException, CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
+import { CanActivate, ExecutionContext, Injectable, NotFoundException } from "@nestjs/common";
 import { Request } from "express";
 import { PrismaService } from "../../prisma/prisma.service";
 
@@ -14,7 +14,7 @@ export class GetBoardListGuard implements CanActivate {
       select: { id: true },
     });
 
-    if (!isBoardExists) throw new BadRequestException("A board with this id was not found in the database.");
+    if (!isBoardExists) throw new NotFoundException("A board with this id was not found in the database.");
 
     return true;
   }
