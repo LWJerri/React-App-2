@@ -24,7 +24,10 @@ const EditList = (props: { open: boolean; close: () => void; listId: string }) =
   const form = useForm<z.infer<typeof EditListSchema>>({ resolver: zodResolver(EditListSchema), mode: "onChange" });
 
   async function onSubmit(data: z.infer<typeof EditListSchema>) {
-    const request = await api.PATCH("/lists/{id}", { body: data, params: { path: { id: getList.id } } });
+    const request = await api.PATCH("/boards/{boardId}/lists/{id}", {
+      body: data,
+      params: { path: { id: getList.id, boardId: getList.boardId } },
+    });
 
     if (request.data) {
       const { data } = request;
