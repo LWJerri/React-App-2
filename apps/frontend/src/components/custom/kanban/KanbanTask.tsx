@@ -15,8 +15,8 @@ import TaskDropdown from "../task/TaskDropdown";
 import TaskSkeleton from "../task/TaskSkeleton";
 import KanbanTaskMove from "./KanbanTaskMove";
 
-const KanbanTask = (props: { listId: string }) => {
-  const { listId } = props;
+const KanbanTask = (props: { listId: string; boardId: string }) => {
+  const { listId, boardId } = props;
 
   const { toast } = useToast();
 
@@ -29,7 +29,7 @@ const KanbanTask = (props: { listId: string }) => {
 
   useEffect(() => {
     api
-      .GET("/lists/{listId}/tasks", { params: { path: { listId } } })
+      .GET("/boards/{boardId}/lists/{listId}/tasks", { params: { path: { listId, boardId } } })
       .then(({ data, error }) => {
         if (data) return addTasksToStore(data);
 
