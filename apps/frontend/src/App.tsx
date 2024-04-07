@@ -43,6 +43,17 @@ const App = () => {
     });
   }, [boardId]);
 
+  const renderMessage = (iconSize: number, message: string) => (
+    <div className="flex h-screen">
+      <div className="m-auto flex flex-col items-center">
+        <h1 className="h1 flex items-center">
+          <IconGhost3 size={iconSize} />
+        </h1>
+        <h3 className="h3">{message}</h3>
+      </div>
+    </div>
+  );
+
   return (
     <ThemeProvider>
       <Navbar />
@@ -63,17 +74,8 @@ const App = () => {
         </div>
       )}
 
-      {!loading && !lists.length && (
-        <div className="flex h-screen">
-          <div className="m-auto flex flex-col items-center">
-            <h1 className="h1 flex items-center">
-              <IconGhost3 size={128} />
-            </h1>
-
-            <h3 className="h3">No lists found</h3>
-          </div>
-        </div>
-      )}
+      {!loading && !lists.length && renderMessage(128, "No lists found")}
+      {!boardId && renderMessage(128, "Choose or create a board")}
     </ThemeProvider>
   );
 };
