@@ -20,13 +20,15 @@ const KanbanDropdown = (props: { list: List }) => {
 
   const removeList = store((state) => state.removeList);
 
-  async function deleteList(listId: string) {
-    const { error, data } = await api.DELETE("/lists/{id}", { params: { path: { id: listId } } });
+  async function deleteList() {
+    const { error, data } = await api.DELETE("/boards/{boardId}/lists/{id}", {
+      params: { path: { id: list.id, boardId: list.boardId } },
+    });
 
     if (data) {
       toast({ title: "List deleted", description: "List successfully deleted." });
 
-      removeList(listId);
+      removeList(list.id);
 
       return;
     }
@@ -64,7 +66,7 @@ const KanbanDropdown = (props: { list: List }) => {
               <span>Edit</span>
             </DropdownMenuItem>
 
-            <DropdownMenuItem className="text-[#ED4245]" onClick={() => deleteList(list.id)}>
+            <DropdownMenuItem className="text-[#ED4245]" onClick={() => deleteList()}>
               <IconTrash stroke={1.5} size={16} className="mr-2" />
               <span>Delete</span>
             </DropdownMenuItem>
