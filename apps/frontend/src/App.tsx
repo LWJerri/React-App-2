@@ -14,13 +14,18 @@ const App = () => {
 
   const [loading, setLoading] = useState(true);
 
+  const boardId = store((state) => state.getActualBoardId());
   const lists = store((state) => state.getLists());
 
   const addListsToStore = store((state) => state.addLists);
 
   useEffect(() => {
-    api.GET("/lists").then(({ data, error }) => {
-      setLoading(!loading);
+    if (!boardId) return;
+
+    setLoading(true);
+
+    api.GET("/boards/{boardId}/lists", { params: { path: { boardId } } }).then(({ data, error }) => {
+      setLoading(false);
 
       if (data) return addListsToStore(data);
 
@@ -36,7 +41,7 @@ const App = () => {
         variant: "destructive",
       });
     });
-  }, []);
+  }, [boardId]);
 
   return (
     <ThemeProvider>
@@ -51,7 +56,7 @@ const App = () => {
 
                 <KanbanTaskButton listId={list.id} />
 
-                <KanbanTask listId={list.id} />
+                <KanbanTask boardId={list.boardId} listId={list.id} />
               </div>
             </div>
           ))}
@@ -63,8 +68,9 @@ const App = () => {
           <div className="m-auto flex flex-col items-center">
             <h1 className="h1 flex items-center">
               <IconGhost3 size={128} />
-              No lists found
             </h1>
+
+            <h3 className="h3">No lists found</h3>
           </div>
         </div>
       )}
