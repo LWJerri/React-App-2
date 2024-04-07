@@ -21,8 +21,8 @@ const KanbanTaskMove = (props: { taskId: string }) => {
   const updateTask = store((state) => state.updateTask);
 
   async function moveTask(newListId: string) {
-    const { data, error } = await api.PATCH("/lists/{listId}/tasks/{id}", {
-      params: { path: { id: retrieveTask.id, listId: retrieveTask.listId } },
+    const { data, error } = await api.PATCH("/boards/{boardId}/lists/{listId}/tasks/{id}", {
+      params: { path: { id: retrieveTask.id, listId: retrieveTask.listId, boardId: retrieveTask.boardId } },
       body: { listId: newListId },
     });
 
