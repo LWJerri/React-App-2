@@ -23,8 +23,8 @@ const TaskDropdown = (props: { task: Task }) => {
   const removeTask = store((state) => state.removeTask);
 
   async function deleteTask() {
-    const { error, data } = await api.DELETE("/lists/{listId}/tasks/{id}", {
-      params: { path: { listId: task.listId, id: task.id } },
+    const { error, data } = await api.DELETE("/boards/{boardId}/lists/{listId}/tasks/{id}", {
+      params: { path: { listId: task.listId, id: task.id, boardId: task.boardId } },
     });
 
     if (data) {
@@ -81,18 +81,14 @@ const TaskDropdown = (props: { task: Task }) => {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <EditTask
-        open={openEditTask}
-        close={() => setOpenEditTask(!openEditTask)}
-        taskId={task.id}
-        listId={task.listId}
-      />
+      <EditTask open={openEditTask} close={() => setOpenEditTask(!openEditTask)} taskId={task.id} />
 
       <TaskHistory
         open={openHistoryTask}
         close={() => setOpenHistoryTask(!openHistoryTask)}
-        taskId={task.id}
+        boardId={task.boardId}
         listId={task.listId}
+        taskId={task.id}
       />
       <TaskModalView task={task} open={showModal} close={() => setShowModal(!showModal)} />
     </div>
