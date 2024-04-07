@@ -18,7 +18,7 @@ export interface Store {
   getLists: () => List[];
   getList: (listId: string) => List;
   addLists: (lists: List[]) => void;
-  updateList: (list: List) => void;
+  updateList: (list: Omit<List, "task">) => void;
   removeList: (listId: string) => void;
 
   tasks: Task[];

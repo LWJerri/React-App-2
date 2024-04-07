@@ -30,8 +30,10 @@ export const store = create<Store>((set, get) => ({
     set(({ lists }) => ({
       lists: [...newLists].filter((newList) => !lists.map((list) => list.id).includes(newList.id)).concat(lists),
     })),
-  updateList: (updatedList: List) => {
-    set(({ lists }) => ({ lists: lists.map((list) => (list.id === updatedList.id ? updatedList : list)) }));
+  updateList: (updatedList: Omit<List, "task">) => {
+    set(({ lists }) => ({
+      lists: lists.map((list) => (list.id === updatedList.id ? { ...updatedList, task: list.task } : list)),
+    }));
   },
   removeList: (listId: string) => set(({ lists }) => ({ lists: lists.filter((list) => list.id !== listId) })),
 

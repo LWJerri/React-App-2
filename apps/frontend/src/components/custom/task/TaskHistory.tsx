@@ -8,12 +8,12 @@ import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../ui/dialog";
 
-const TaskHistory = (props: { open: boolean; close: () => void; listId: string; taskId: string }) => {
-  const { open, close, listId, taskId } = props;
+const TaskHistory = (props: { open: boolean; close: () => void; boardId: string; listId: string; taskId: string }) => {
+  const { open, close, boardId, listId, taskId } = props;
 
   const { toast } = useToast();
 
-  const [history, setHistory] = useState<History[]>([]);
+  const [history, setHistory] = useState<Omit<History, "relatedId">[]>([]);
 
   const getList = store((state) => state.getList);
 
@@ -21,7 +21,7 @@ const TaskHistory = (props: { open: boolean; close: () => void; listId: string; 
     if (!open) return;
 
     api
-      .GET("/lists/{listId}/tasks/{id}/audit", { params: { path: { id: taskId, listId } } })
+      .GET("/boards/{boardId}/lists/{listId}/tasks/{id}/audit", { params: { path: { id: taskId, listId, boardId } } })
       .then(({ data, error }) => {
         if (data) return setHistory(data);
 
