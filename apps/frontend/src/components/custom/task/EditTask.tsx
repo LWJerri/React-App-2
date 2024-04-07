@@ -26,8 +26,8 @@ const EditTaskSchema = z.object({
   listId: z.string().optional(),
 });
 
-const EditTask = (props: { open: boolean; close: () => void; listId: string; taskId: string }) => {
-  const { open, close, taskId, listId } = props;
+const EditTask = (props: { open: boolean; close: () => void; taskId: string }) => {
+  const { open, close, taskId } = props;
 
   const { toast } = useToast();
 
@@ -50,9 +50,9 @@ const EditTask = (props: { open: boolean; close: () => void; listId: string; tas
     const { dueAt, ...restData } = data;
     const preparedDueAt = dueAt ? new Date(dueAt).toISOString() : undefined;
 
-    const request = await api.PATCH("/lists/{listId}/tasks/{id}", {
+    const request = await api.PATCH("/boards/{boardId}/lists/{listId}/tasks/{id}", {
       body: { ...restData, dueAt: preparedDueAt },
-      params: { path: { listId, id: taskId } },
+      params: { path: { listId: retrieveTask.listId, id: taskId, boardId: retrieveTask.boardId } },
     });
 
     if (request.data) {
