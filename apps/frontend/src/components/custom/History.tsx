@@ -8,8 +8,8 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
 import { Skeleton } from "../ui/skeleton";
 import { useToast } from "../ui/use-toast";
 
-const History = (props: { open: boolean; close: () => void }) => {
-  const { open, close } = props;
+const History = (props: { open: boolean; close: () => void; boardId: string }) => {
+  const { open, close, boardId } = props;
 
   const { toast } = useToast();
 
@@ -21,7 +21,7 @@ const History = (props: { open: boolean; close: () => void }) => {
   useEffect(() => {
     if (!open) return;
 
-    api.GET("/audit").then(({ data, error }) => {
+    api.GET("/boards/{id}/audit", { params: { path: { id: boardId } } }).then(({ data, error }) => {
       setLoading(false);
 
       if (data) return setHistory(data);
