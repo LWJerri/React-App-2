@@ -74,8 +74,8 @@ const App = () => {
         </div>
       )}
 
-      {!loading && !lists.length && renderMessage(128, "No lists found")}
       {!boardId && renderMessage(128, "Choose or create a board")}
+      {!loading && !lists.length && renderMessage(128, "No lists found")}
     </ThemeProvider>
   );
 };
