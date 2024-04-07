@@ -18,8 +18,10 @@ export const store = create<Store>((set, get) => ({
         .filter((newBoard) => !boards.map((board) => board.id).includes(newBoard.id))
         .concat(boards),
     })),
-  updateBoard: (updatedBoard: Board) => {
-    set(({ boards }) => ({ boards: boards.map((board) => (board.id === updatedBoard.id ? updatedBoard : board)) }));
+  updateBoard: (updatedBoard: Omit<Board, "list">) => {
+    set(({ boards }) => ({
+      boards: boards.map((board) => (board.id === updatedBoard.id ? { ...updatedBoard, list: board.list } : board)),
+    }));
   },
   removeBoard: (boardId: string) => set(({ boards }) => ({ boards: boards.filter((board) => board.id !== boardId) })),
 

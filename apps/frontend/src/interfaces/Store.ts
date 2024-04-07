@@ -11,7 +11,7 @@ export interface Store {
   getBoards: () => Board[];
   getBoard: (boardId: string) => Board;
   addBoards: (boards: Board[]) => void;
-  updateBoard: (board: Board) => void;
+  updateBoard: (board: Omit<Board, "list">) => void;
   removeBoard: (boardId: string) => void;
 
   lists: List[];
