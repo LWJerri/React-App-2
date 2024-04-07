@@ -37,6 +37,7 @@ const CreateTask = (props: { open: boolean; close: () => void; listId: string })
 
   useEffect(() => form.reset(), [open]);
 
+  const boardId = store((state) => state.getActualBoardId());
   const addTasks = store((state) => state.addTasks);
 
   const priorities = Object.keys(Priority);
@@ -44,9 +45,9 @@ const CreateTask = (props: { open: boolean; close: () => void; listId: string })
   async function onSubmit(data: z.infer<typeof CreateTaskSchema>) {
     const { dueAt, ...fields } = data;
 
-    const request = await api.POST("/lists/{listId}/tasks", {
+    const request = await api.POST("/boards/{boardId}/lists/{listId}/tasks", {
       body: { dueAt: new Date(dueAt).toISOString(), ...fields },
-      params: { path: { listId } },
+      params: { path: { listId, boardId } },
     });
 
     if (request.data) {
