@@ -10,7 +10,9 @@ export class PatchTaskGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const { body, params } = context.switchToHttp().getRequest<Request<{ boardId: string }, any, PatchTaskDto>>();
 
-    if (body?.listId === "") throw new BadRequestException("listId field must have correct id, if present.");
+    if (body?.listId === "") {
+      throw new BadRequestException("The new list id must be explicitly specified if the field is present.");
+    }
 
     if (body.listId) {
       const isListExists = await this.prismaService.list.findUnique({
@@ -18,7 +20,7 @@ export class PatchTaskGuard implements CanActivate {
         select: { id: true },
       });
 
-      if (!isListExists) throw new NotFoundException("No new list with this Id in this board was found.");
+      if (!isListExists) throw new NotFoundException("The id of the new list was not found in the database.");
     }
 
     return true;

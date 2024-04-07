@@ -16,10 +16,10 @@ export class PatchListGuard implements CanActivate {
 
     const isListExists = await this.prismaService.list.findUnique({ where: { id, boardId }, select: { name: true } });
 
-    if (!isListExists) throw new NotFoundException("No list with this Id was found.");
+    if (!isListExists) throw new NotFoundException("The list with this id was not found in the database.");
 
     if (isListExists.name === String(body.name)) {
-      throw new BadRequestException("New list name cannot be as the current name.");
+      throw new BadRequestException("The new list name cannot be like the current list name.");
     }
 
     return true;

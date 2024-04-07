@@ -16,7 +16,7 @@ export class GetTaskGuard implements CanActivate {
       select: { id: true },
     });
 
-    if (!isTaskExists) throw new NotFoundException("No task with this Id was found.");
+    if (!isTaskExists) throw new NotFoundException("The task with this id is not found in the database.");
 
     return true;
   }

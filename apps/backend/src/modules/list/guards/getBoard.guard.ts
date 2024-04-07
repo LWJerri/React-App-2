@@ -14,7 +14,7 @@ export class GetBoardListGuard implements CanActivate {
       select: { id: true },
     });
 
-    if (!isBoardExists) throw new BadRequestException("No board with this Id was found.");
+    if (!isBoardExists) throw new BadRequestException("A board with this id was not found in the database.");
 
     return true;
   }

@@ -34,7 +34,7 @@ export class ListService {
   async createList(body: CreateListDto, boardId: string): Promise<Omit<ResponseListDto, "task">> {
     const list = await this.prismaService.list.create({ data: { ...body, boardId } });
 
-    await this.auditService.createLog("CREATE", boardId, list.id, "name", "LIST", list);
+    await this.auditService.log("CREATE", boardId, list.id, "name", "LIST", list);
 
     return list;
   }
@@ -56,7 +56,7 @@ export class ListService {
     const newChanges = Object.keys(prepNewChanges).filter((key) => key !== updatedAtKey);
 
     newChanges.map(async (key) => {
-      await this.auditService.createLog("EDIT", boardId, fields.id, key, "LIST", fields, oldState);
+      await this.auditService.log("EDIT", boardId, fields.id, key, "LIST", fields, oldState);
     });
 
     return { ...fields, ..._count };
@@ -68,6 +68,6 @@ export class ListService {
       data: { isDeleted: true, updatedAt: new Date() },
     });
 
-    await this.auditService.createLog("DELETE", boardId, list.id, "name", "LIST", list);
+    await this.auditService.log("DELETE", boardId, list.id, "name", "LIST", list);
   }
 }

@@ -29,7 +29,7 @@ export class TaskController {
   @ApiOperation({
     summary: "Get the tasks",
     tags: ["Tasks Endpoints"],
-    description: "This endpoint will return a list of all created tasks for the specified list.",
+    description: "This endpoint updates the list of all tasks assigned to the specified board and list.",
   })
   @ApiOkResponse({ type: ResponseTaskDto, isArray: true, description: responseStatus["success"] })
   @ApiBadRequestResponse({ type: FallbackResponse, description: responseStatus["error"] })
@@ -37,12 +37,12 @@ export class TaskController {
   @ApiParam({
     name: "boardId",
     example: "cluljfxy2000108l3fl1h9fms",
-    description: "Specify the board Id for which you want to retrieve tasks.",
+    description: "The id of the board for which the task is to be retrieved.",
   })
   @ApiParam({
     name: "listId",
     example: "cluljfu0k000008l3g2na0xxs",
-    description: "Specify the list Id for which you want to retrieve tasks.",
+    description: "The id of the list for which the task is to be retrieved.",
   })
   getTasks(@Param("boardId") boardId: string, @Param("listId") listId: string) {
     return this.taskService.getTasks(boardId, listId);
@@ -52,7 +52,7 @@ export class TaskController {
   @ApiOperation({
     summary: "History of changes",
     tags: ["Tasks Endpoints"],
-    description: "This endpoint will return a list of all changes that are associated with the specified task.",
+    description: "This endpoint returns the change history for the specified task.",
   })
   @ApiOkResponse({
     type: OmitType(ResponseBoardAuditTaskDto, ["relatedId"]),
@@ -64,17 +64,17 @@ export class TaskController {
   @ApiParam({
     name: "boardId",
     example: "cluljm763000208l3hwowdubx",
-    description: "Specify the board Id for which you want to get audit log.",
+    description: "The id of the board for which you want to retrieve a list of changes to the task.",
   })
   @ApiParam({
     name: "listId",
     example: "cluljma62000308l3621napx3",
-    description: "Specify the list Id for which you want to get audit log..",
+    description: "The list id of the list for which you want to retrieve a list of changes to the task.",
   })
   @ApiParam({
     name: "id",
     example: "cluljmee4000408l36cizegkh",
-    description: "Specify the task Id for which you want to get audit log.",
+    description: "The id of the task for which you want to retrieve the change list.",
   })
   @UseGuards(GetTaskGuard)
   getAudit(@Param("boardId") boardId: string, @Param("id") taskId: string) {
@@ -85,7 +85,7 @@ export class TaskController {
   @ApiOperation({
     summary: "Get the task",
     tags: ["Tasks Endpoints"],
-    description: "This endpoint will return an object with detailed information about a specific task.",
+    description: "This endpoint returns an object with a task.",
   })
   @ApiOkResponse({ type: ResponseTaskDto, description: responseStatus["success"] })
   @ApiBadRequestResponse({ type: FallbackResponse, description: responseStatus["error"] })
@@ -93,18 +93,14 @@ export class TaskController {
   @ApiParam({
     name: "boardId",
     example: "cluljum8z000008le778m5hvo",
-    description: "Specify the board Id for which you want to retrieve task.",
+    description: "The id of the board for which the task is to be obtained",
   })
   @ApiParam({
     name: "listId",
     example: "cluljuot0000108le2pwuehua",
-    description: "Specify the list Id for which you want to retrieve task.",
+    description: "The id of the list for which the task is to be retrieved",
   })
-  @ApiParam({
-    name: "id",
-    example: "cluljurao000208le92ij6366",
-    description: "Specify the task Id for which you want to retrieve task.",
-  })
+  @ApiParam({ name: "id", example: "cluljurao000208le92ij6366", description: "Task id." })
   @UseGuards(GetTaskGuard)
   getTask(@Param("boardId") boardId: string, @Param("listId") listId: string, @Param("id") id: string) {
     return this.taskService.getTask(boardId, listId, id);
@@ -114,7 +110,7 @@ export class TaskController {
   @ApiOperation({
     summary: "Create a task",
     tags: ["Tasks Endpoints"],
-    description: "This endpoint accepts parameters to create a task and returns an object with the created task.",
+    description: "This endpoint creates a new task in the database and returns a task object.",
   })
   @ApiOkResponse({ type: ResponseTaskDto, description: responseStatus["success"] })
   @ApiBadRequestResponse({ type: FallbackResponse, description: responseStatus["error"] })
@@ -123,12 +119,12 @@ export class TaskController {
   @ApiParam({
     name: "boardId",
     example: "cluljw8uo000008l51nnqgpfl",
-    description: "Specify the board Id for which you want to create new task.",
+    description: "The id of the board for which you want to create a task.",
   })
   @ApiParam({
     name: "listId",
     example: "cluljwc7w000108l55x0cavuq",
-    description: "Specify the list Id for which you want to create new task.",
+    description: "The list id of the list for which you want to create a task.",
   })
   createTask(@Body() body: CreateTaskDto, @Param("boardId") boardId: string, @Param("listId") listId: string) {
     return this.taskService.createTask(body, boardId, listId);
@@ -136,9 +132,9 @@ export class TaskController {
 
   @Patch(":id")
   @ApiOperation({
-    summary: "Edit task",
+    summary: "Edit a task",
     tags: ["Tasks Endpoints"],
-    description: "This endpoint accepts parameters to edit an existing task and returns a new object.",
+    description: "This endpoint edits the task in the database and returns the updated task object.",
   })
   @ApiOkResponse({ type: ResponseTaskDto, description: responseStatus["success"] })
   @ApiBadRequestResponse({ type: FallbackResponse, description: responseStatus["error"] })
@@ -147,18 +143,14 @@ export class TaskController {
   @ApiParam({
     name: "boardId",
     example: "clulk457i000008jy8vbq59nf",
-    description: "Specify the board Id for which you want to modify.",
+    description: "The id of the board in which you want to edit the task.",
   })
   @ApiParam({
     name: "listId",
     example: "clulk4880000108jy8py40n8z",
-    description: "Specify the list Id for which you want to modify.",
+    description: "The list id of the list in which you want to edit the task.",
   })
-  @ApiParam({
-    name: "id",
-    example: "clulk4bmk000208jy2n8o3521",
-    description: "Specify the task Id for which you want to modify.",
-  })
+  @ApiParam({ name: "id", example: "clulk4bmk000208jy2n8o3521", description: "The id of the task to be edited." })
   @UseGuards(GetTaskGuard, PatchTaskGuard)
   patchTask(
     @Body() body: PatchTaskDto,
@@ -171,9 +163,9 @@ export class TaskController {
 
   @Delete(":id")
   @ApiOperation({
-    summary: "Delete task",
+    summary: "Delete the task",
     tags: ["Tasks Endpoints"],
-    description: "This endpoint removes the task from the database.",
+    description: "This endpoint deletes a task in the database.",
   })
   @ApiOkResponse({ description: responseStatus["success"] })
   @ApiBadRequestResponse({ type: FallbackResponse, description: responseStatus["error"] })
@@ -181,18 +173,14 @@ export class TaskController {
   @ApiParam({
     name: "boardId",
     example: "clulk6wxu000308jy5hb78ug9",
-    description: "Specify the board Id for which you want to delete.",
+    description: "The id of the board in which you want to delete the task.",
   })
   @ApiParam({
     name: "listId",
     example: "clulk6zwj000408jyh8rz4vry",
-    description: "Specify the list Id for which you want to delete.",
+    description: "The id of the list in which you want to delete the task.",
   })
-  @ApiParam({
-    name: "id",
-    example: "clulk72qn000508jy9x7457ep",
-    description: "Specify the task Id for which you want to delete.",
-  })
+  @ApiParam({ name: "id", example: "clulk72qn000508jy9x7457ep", description: "The id of the task to be deleted." })
   @UseGuards(GetTaskGuard)
   deleteTask(@Param("boardId") boardId: string, @Param("listId") listId: string, @Param("id") id: string) {
     return this.taskService.deleteTask(boardId, listId, id);

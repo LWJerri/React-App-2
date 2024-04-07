@@ -25,9 +25,9 @@ export class ListController {
 
   @Get()
   @ApiOperation({
-    summary: "Get all lists",
+    summary: "Get the lists",
     tags: ["Lists Endpoints"],
-    description: "This endpoint returns a list of all created lists.",
+    description: "This endpoint returns a list of all lists in the specified board.",
   })
   @ApiOkResponse({ type: ResponseListWithTaskFieldDto, isArray: true, description: responseStatus["success"] })
   @ApiBadRequestResponse({ type: FallbackResponse, description: responseStatus["error"] })
@@ -35,7 +35,7 @@ export class ListController {
   @ApiParam({
     name: "boardId",
     example: "clulfeu4j000108jj6g84808l",
-    description: "Specify the board Id for which you wanna get lists.",
+    description: "The id of the board for which lists are to be retrieved.",
   })
   @UseGuards(GetBoardListGuard)
   getLists(@Param("boardId") boardId: string) {
@@ -46,8 +46,7 @@ export class ListController {
   @ApiOperation({
     summary: "Create a list",
     tags: ["Lists Endpoints"],
-    description:
-      "This endpoint creates a new list in the database with the specified parameters and returns an object with the new list.",
+    description: "This endpoint creates a new list in the database and returns an object with the new list.",
   })
   @ApiOkResponse({ type: ResponseListDto, description: responseStatus["success"] })
   @ApiBadRequestResponse({ type: FallbackResponse, description: responseStatus["error"] })
@@ -56,7 +55,7 @@ export class ListController {
   @ApiParam({
     name: "boardId",
     example: "clulff7ng000208jjh0vt0ecd",
-    description: "Specify the board Id for which you wanna create list.",
+    description: "The id of the board in which you want to create the list.",
   })
   @UseGuards(GetBoardListGuard, CreateListGuard)
   createList(@Body() body: CreateListDto, @Param("boardId") boardId: string) {
@@ -65,9 +64,9 @@ export class ListController {
 
   @Patch(":id")
   @ApiOperation({
-    summary: "Edit list",
+    summary: "Edit the list",
     tags: ["Lists Endpoints"],
-    description: "This endpoint accepts parameters to edit an existing list and returns a new list object.",
+    description: "This endpoint edits a list in the database and returns the edited list object.",
   })
   @ApiOkResponse({ type: ResponseListDto, description: responseStatus["success"] })
   @ApiBadRequestResponse({ type: FallbackResponse, description: responseStatus["error"] })
@@ -76,13 +75,9 @@ export class ListController {
   @ApiParam({
     name: "boardId",
     example: "clulfgx0j000408jjfmdz8fj7",
-    description: "Specify the board Id for which you wanna edit list.",
+    description: "The id of the board in which you want to edit the list.",
   })
-  @ApiParam({
-    name: "id",
-    example: "clulfgqi0000308jja6j594sd",
-    description: "Specify the Id of the list to be edited.",
-  })
+  @ApiParam({ name: "id", example: "clulfgqi0000308jja6j594sd", description: "The id of the list to be edited." })
   @UseGuards(GetBoardListGuard, PatchListGuard, CreateListGuard)
   patchList(@Body() body: PatchListDto, @Param("boardId") boardId: string, @Param("id") id: string) {
     return this.listService.patchList(body, boardId, id);
@@ -90,9 +85,9 @@ export class ListController {
 
   @Delete(":id")
   @ApiOperation({
-    summary: "Delete list",
+    summary: "Delete the list",
     tags: ["Lists Endpoints"],
-    description: "This endpoint deletes the list with all tasks bound to the list.",
+    description: "This endpoint deletes the list in the database.",
   })
   @ApiOkResponse({ description: responseStatus["success"] })
   @ApiBadRequestResponse({ type: FallbackResponse, description: responseStatus["error"] })
@@ -100,13 +95,9 @@ export class ListController {
   @ApiParam({
     name: "boardId",
     example: "clulfhtn0000608jjc7t011sb",
-    description: "Specify the board Id for which you wanna edit list.",
+    description: "The id of the board in which you want to delete the list.",
   })
-  @ApiParam({
-    name: "id",
-    example: "clulfhnzr000508jjai8k7mfw",
-    description: "Specify the Id of the list to be deleted.",
-  })
+  @ApiParam({ name: "id", example: "clulfhnzr000508jjai8k7mfw", description: "The id of the list to be deleted." })
   @UseGuards(GetBoardListGuard, DeleteListGuard)
   deleteList(@Param("boardId") boardId: string, @Param("id") id: string) {
     return this.listService.deleteList(boardId, id);

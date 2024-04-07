@@ -19,7 +19,7 @@ async function bootstrap() {
 
   const options = new DocumentBuilder()
     .setTitle("Task Manager V2 API")
-    .setDescription("Documentation with all possible API endpoints for this project.")
+    .setDescription("Detailed technical documentation describing all possible API endpoints for this project.")
     .build();
 
   const document = SwaggerModule.createDocument(app, options);

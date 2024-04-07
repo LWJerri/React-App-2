@@ -16,7 +16,9 @@ export class DeleteListGuard implements CanActivate {
       select: { isDeleted: true },
     });
 
-    if (!isListExists || isListExists.isDeleted) throw new NotFoundException("No list with this Id was found.");
+    if (!isListExists || isListExists.isDeleted) {
+      throw new NotFoundException("A list with this id was not found in the database.");
+    }
 
     return true;
   }

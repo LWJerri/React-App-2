@@ -5,7 +5,7 @@ import { CreateTaskDto } from "./create.dto";
 export class PatchTaskDto extends PartialType(CreateTaskDto) {
   @ApiPropertyOptional({
     example: "clulj6jrz000e08lc13qofuyj",
-    description: "The new Id of the list where the task will be moved to.",
+    description: "The new list id of the list to which the task should be moved.",
   })
   @IsOptional()
   @IsString()

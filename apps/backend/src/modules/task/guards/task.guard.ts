@@ -14,7 +14,7 @@ export class TaskListGuard implements CanActivate {
       select: { id: true },
     });
 
-    if (!isListExists) throw new NotFoundException("No list with this Id was found.");
+    if (!isListExists) throw new NotFoundException("A list with this id was not found in the database.");
 
     return true;
   }

@@ -11,7 +11,7 @@ export class GetBoardGuard implements CanActivate {
 
     const isBoardExists = await this.prismaService.board.findUnique({ where: { id: params.id }, select: { id: true } });
 
-    if (!isBoardExists) throw new NotFoundException("No board with this Id was found.");
+    if (!isBoardExists) throw new NotFoundException("A board with that id is not in the database.");
 
     return true;
   }

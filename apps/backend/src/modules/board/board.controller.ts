@@ -26,7 +26,7 @@ export class BoardController {
   @ApiOperation({
     summary: "Get audit log",
     tags: ["Boards Endpoints"],
-    description: "This request will return the entire history of actions on lists and tasks.",
+    description: "This endpoint returns the history of actions within the board.",
   })
   @ApiOkResponse({ type: ResponseBoardAuditDto, isArray: true, description: responseStatus["success"] })
   @ApiBadRequestResponse({ type: FallbackResponse, description: responseStatus["error"] })
@@ -34,7 +34,7 @@ export class BoardController {
   @ApiParam({
     name: "id",
     example: "clulefm59000108l9fnpr6w7t",
-    description: "Provide board Id which you want to get audit.",
+    description: "The id of the board for which you want to retrieve the audit history.",
   })
   @UseGuards(GetBoardGuard)
   getAudit(@Param("id") id: string) {
@@ -43,9 +43,9 @@ export class BoardController {
 
   @Get()
   @ApiOperation({
-    summary: "Get all boards",
+    summary: "Get all the boards",
     tags: ["Boards Endpoints"],
-    description: "This endpoint returns a list of all created boards.",
+    description: "This endpoint returns a list of all existing boards.",
   })
   @ApiOkResponse({ type: ResponseBoardWithListFieldDto, isArray: true, description: responseStatus["success"] })
   @ApiBadRequestResponse({ type: FallbackResponse, description: responseStatus["error"] })
@@ -56,10 +56,9 @@ export class BoardController {
 
   @Post()
   @ApiOperation({
-    summary: "Create a board",
+    summary: "Create a new board",
     tags: ["Boards Endpoints"],
-    description:
-      "This endpoint creates a new board in the database with the specified parameters and returns an object with the new board.",
+    description: "This endpoint creates a new board in the database and returns the object of the created board.",
   })
   @ApiOkResponse({ type: ResponseBoardDto, description: responseStatus["success"] })
   @ApiBadRequestResponse({ type: FallbackResponse, description: responseStatus["error"] })
@@ -72,19 +71,15 @@ export class BoardController {
 
   @Patch(":id")
   @ApiOperation({
-    summary: "Edit board",
+    summary: "Edit the board",
     tags: ["Boards Endpoints"],
-    description: "This endpoint accepts parameters to edit an existing board and returns a new board object.",
+    description: "This endpoint edits a board in the database and returns an object with the updated board.",
   })
   @ApiOkResponse({ type: ResponseBoardDto, description: responseStatus["success"] })
   @ApiBadRequestResponse({ type: FallbackResponse, description: responseStatus["error"] })
   @ApiInternalServerErrorResponse({ type: FallbackResponse, description: responseStatus["error"] })
   @ApiBody({ type: PatchBoardDto })
-  @ApiParam({
-    name: "id",
-    example: "clulde05k000008jncx4qaduv",
-    description: "Specify the Id of the board to be edited.",
-  })
+  @ApiParam({ name: "id", example: "clulde05k000008jncx4qaduv", description: "The id of the board to be edited." })
   @UseGuards(GetBoardGuard, CreateBoardGuard)
   patchBoard(@Body() body: PatchBoardDto, @Param("id") id: string) {
     return this.boardService.patchBoard(body, id);
@@ -92,18 +87,14 @@ export class BoardController {
 
   @Delete(":id")
   @ApiOperation({
-    summary: "Delete board",
+    summary: "Remove the board",
     tags: ["Boards Endpoints"],
-    description: "This endpoint deletes the board with all lists bound to the board.",
+    description: "This query removes the board from the database.",
   })
   @ApiOkResponse({ description: responseStatus["success"] })
   @ApiBadRequestResponse({ type: FallbackResponse, description: responseStatus["error"] })
   @ApiInternalServerErrorResponse({ type: FallbackResponse, description: responseStatus["error"] })
-  @ApiParam({
-    name: "id",
-    example: "cluldezu7000108jnfpb9g3s5",
-    description: "Specify the Id of the board to be deleted.",
-  })
+  @ApiParam({ name: "id", example: "cluldezu7000108jnfpb9g3s5", description: "The id of the board to be deleted." })
   @UseGuards(GetBoardGuard)
   deleteBoard(@Param("id") id: string) {
     return this.boardService.deleteBoard(id);

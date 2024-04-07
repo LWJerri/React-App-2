@@ -6,7 +6,7 @@ import { PrismaService } from "../prisma/prisma.service";
 export class AuditService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async createLog(
+  async log(
     action: Action,
     boardId: string,
     relatedId: string,

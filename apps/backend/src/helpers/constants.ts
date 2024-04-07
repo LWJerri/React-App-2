@@ -1,6 +1,6 @@
 const responseStatus = {
   success: "Response when the request is successfully processed.",
-  error: "Response if an error occurs while processing a request.",
+  error: "Response when request processing fails.",
 };
 
 export { responseStatus };

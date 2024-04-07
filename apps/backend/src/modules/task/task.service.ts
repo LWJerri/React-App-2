@@ -65,7 +65,7 @@ export class TaskService {
   async createTask(body: CreateTaskDto, boardId: string, listId: string): Promise<ResponseTaskDto> {
     const task = await this.prismaService.task.create({ data: { ...body, listId } });
 
-    await this.auditService.createLog("CREATE", boardId, task.id, "name", "TASK", task);
+    await this.auditService.log("CREATE", boardId, task.id, "name", "TASK", task);
 
     return { ...task, boardId };
   }
@@ -85,7 +85,7 @@ export class TaskService {
     const newChanges = Object.keys(prepNewChanges).filter((key) => key !== updatedAtKey);
 
     newChanges.map(async (key) => {
-      await this.auditService.createLog("EDIT", boardId, task.id, key, "TASK", task, oldState);
+      await this.auditService.log("EDIT", boardId, task.id, key, "TASK", task, oldState);
     });
 
     return { ...task, boardId };
@@ -94,6 +94,6 @@ export class TaskService {
   async deleteTask(boardId: string, listId: string, id: string) {
     const task = await this.prismaService.task.delete({ where: { id, list: { boardId }, listId } });
 
-    await this.auditService.createLog("DELETE", boardId, task.id, "name", "TASK", task);
+    await this.auditService.log("DELETE", boardId, task.id, "name", "TASK", task);
   }
 }
