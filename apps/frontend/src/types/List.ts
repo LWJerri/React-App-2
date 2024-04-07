@@ -1,3 +1,5 @@
 import { paths } from "@/api";
 
-export type List = paths["/lists"]["get"]["responses"]["200"]["content"]["application/json"][0];
+type RequestUrl = "/boards/{boardId}/lists";
+
+export type List = paths[RequestUrl]["get"]["responses"]["200"]["content"]["application/json"][0];
