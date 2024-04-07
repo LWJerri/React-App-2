@@ -13,8 +13,8 @@ const CreateListSchema = z.object({
   name: z.string().trim().min(3).max(20),
 });
 
-const CreateList = (props: { open: boolean; close: () => void }) => {
-  const { open, close } = props;
+const CreateList = (props: { open: boolean; close: () => void; boardId: string }) => {
+  const { open, close, boardId } = props;
 
   const { toast } = useToast();
 
@@ -23,7 +23,7 @@ const CreateList = (props: { open: boolean; close: () => void }) => {
   const addLists = store((state) => state.addLists);
 
   async function onSubmit(data: z.infer<typeof CreateListSchema>) {
-    const request = await api.POST("/lists", { body: data });
+    const request = await api.POST("/boards/{boardId}/lists", { params: { path: { boardId } }, body: data });
 
     if (request.data) {
       const { data } = request;
