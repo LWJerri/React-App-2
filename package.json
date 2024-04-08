@@ -13,7 +13,9 @@
     "frontend:preview": "pnpm -F @task-manager-v2/frontend preview",
     "frontend:build": "pnpm -F @task-manager-v2/frontend build",
     "frontend:dev": "pnpm -F @task-manager-v2/frontend dev",
-    "frontend:sync": "pnpm -F @task-manager-v2/frontend sync"
+    "frontend:sync": "pnpm -F @task-manager-v2/frontend sync",
+    "frontend:storybook": "pnpm -F @task-manager-v2/frontend storybook",
+    "frontend:storybook:build": "pnpm -F @task-manager-v2/frontend storybook:build"
   },
   "engines": {
     "node": ">=18"
