@@ -96,14 +96,25 @@ const BoardList = (props: { open: boolean; close: () => void }) => {
                     {item.name}
                   </Button>
 
-                  <Button size={"icon"} variant={"outline"} onClick={() => setOpenEditBoard(!openEditBoard)}>
+                  <Button
+                    size={"icon"}
+                    variant={"outline"}
+                    onClick={() => {
+                      setActualBoardId(item.id);
+                      close();
+                      setOpenEditBoard(!openEditBoard);
+                    }}
+                  >
                     <IconPencil stroke={1.5} />
                   </Button>
 
                   <Button
                     size={"icon"}
                     variant={"outline"}
-                    onClick={() => deleteBoard(item.id)}
+                    onClick={() => {
+                      deleteBoard(item.id);
+                      close();
+                    }}
                     className="hover:bg-red-300 hover:text-black"
                   >
                     <IconTrash stroke={1.5} />
