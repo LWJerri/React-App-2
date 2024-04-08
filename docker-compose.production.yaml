@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  postgres:
+    restart: always
+    image: postgres:14.5
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      - db
+      - task_v2
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+
+  backend:
+    restart: always
+    image: registry.main.lwjerri.dev/lwjerri/task-manager-v2-backend:latest
+    environment:
+      - PORT=${PORT}
+      - DATABASE_URL=${DATABASE_URL}
+    networks:
+      - task_v2
+      - caddy
+    depends_on:
+      - postgres
+    labels:
+      caddy: https://api.task-manager-v2.main.lwjerri.dev
+      caddy.reverse_proxy: "{{upstreams $PORT}}"
+
+  frontend:
+    restart: always
+    image: registry.main.lwjerri.dev/lwjerri/task-manager-v2-frontend:latest
+    environment:
+      - VITE_API_URL=${VITE_API_URL}
+    networks:
+      - caddy
+    depends_on:
+      - backend
+    labels:
+      caddy: https://task-manager-v2.main.lwjerri.dev
+      caddy.reverse_proxy: "{{upstreams 8080}}"
+
+networks:
+  caddy:
+    external: true
+  db:
+    external: true
+  task_v2:
+
+volumes:
+  postgres_db:

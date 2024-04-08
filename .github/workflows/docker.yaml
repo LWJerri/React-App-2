@@ -68,7 +68,7 @@ jobs:
         with:
           file: ${{ steps.changes.outputs.path }}/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/task-manager-${{ matrix.service }}:latest
+          tags: ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/task-manager-v2-${{ matrix.service }}:latest
           build-args: |
             VITE_API_URL=${{ secrets.VITE_API_URL }}
 
