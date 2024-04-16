@@ -33,6 +33,6 @@
   "homepage": "https://github.com/LWJerri/React-App-2#readme",
   "devDependencies": {
     "prettier": "3.2.5",
-    "prettier-plugin-tailwindcss": "0.5.13"
+    "prettier-plugin-tailwindcss": "0.5.14"
   }
 }
