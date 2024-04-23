@@ -206,8 +206,8 @@ importers:
         specifier: 8.0.8
         version: 8.0.8(react@18.2.0)
       '@storybook/addon-onboarding':
-        specifier: 8.0.8
-        version: 8.0.8
+        specifier: 8.0.9
+        version: 8.0.9
       '@storybook/blocks':
         specifier: 8.0.8
         version: 8.0.8(@types/react@18.2.79)(react-dom@18.2.0)(react@18.2.0)
@@ -3727,8 +3727,8 @@ packages:
       tiny-invariant: 1.3.3
     dev: true
 
-  /@storybook/addon-onboarding@8.0.8:
-    resolution: {integrity: sha512-dgZuoITOYRcZSBtTGQTQKXoUTuxjUH0WRcYxiZUCQBEUGnXnMbThDz6eFhq9QC0YWLYwyHjo5iAUpnEvBNpb3A==}
+  /@storybook/addon-onboarding@8.0.9:
+    resolution: {integrity: sha512-gRPn8ooxTmdamfJgdkQR48pza67S83l2DDlZ3C1kuus19UO+eIFUEVZJbud9qQojq7jc8ztaYXiNObWdxKu29A==}
     dev: true
 
   /@storybook/addon-outline@8.0.8:
