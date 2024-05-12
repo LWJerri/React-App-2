@@ -27,7 +27,11 @@ const App = () => {
     api.GET("/boards/{boardId}/lists", { params: { path: { boardId } } }).then(({ data, error }) => {
       setLoading(false);
 
-      if (data) return addListsToStore(data);
+      if (data) {
+        const loadOnlyExistsList = data.filter((list) => !list.isDeleted);
+
+        return addListsToStore(loadOnlyExistsList);
+      }
 
       if (!error) {
         toast({ title: "Something went wrong", description: "Please try again later 😭", variant: "destructive" });
