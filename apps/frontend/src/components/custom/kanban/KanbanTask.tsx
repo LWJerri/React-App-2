@@ -73,7 +73,7 @@ const KanbanTask = (props: { listId: string; boardId: string }) => {
               </div>
             </CardHeader>
 
-            <CardContent className="small max-h-96 font-normal">
+            <CardContent className="small max-h-96 max-w-sm break-all font-normal">
               <Markdown rehypePlugins={[rehypeHighlight]} remarkPlugins={[remarkGfm]}>
                 {task.description.length > 500 ? task.description.slice(0, 500) + "..." : task.description}
               </Markdown>

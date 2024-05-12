@@ -29,7 +29,7 @@ const TaskModalView = (props: { open: boolean; close: () => void; task: Task }) 
         <Markdown
           rehypePlugins={[rehypeHighlight]}
           remarkPlugins={[remarkGfm]}
-          className="small max-h-full min-h-96 overflow-y-auto font-normal"
+          className="small max-h-full min-h-96 overflow-y-auto break-all font-normal"
         >
           {task.description}
         </Markdown>
