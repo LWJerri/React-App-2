@@ -60,21 +60,26 @@ const History = (props: { open: boolean; close: () => void; boardId: string }) =
 
                   {item.action === "DELETE" && (
                     <p>
-                      You delete {item.relatedModel.toLowerCase()} <b>{item.oldState.name}</b>
+                      You delete {item.relatedModel.toLowerCase()} <b>{item.newState.name}</b>
                     </p>
                   )}
 
                   {item.action === "EDIT" && item.affectedField !== "dueAt" && item.affectedField !== "listId" && (
                     <p>
-                      You edit {item.relatedModel.toLowerCase()} {item.affectedField} from {/* @ts-ignore */}
-                      <b>{item.oldState[item.affectedField]}</b> to <b>{item.newState[item.affectedField]}</b>
+                      You edit {item.relatedModel.toLowerCase()} {item.affectedField} from
+                      {/* @ts-ignore */}
+                      <b>{item.newState[item.affectedField]}</b> to
+                      {/* @ts-ignore */}
+                      <b>{item.newState[item.affectedField]}</b>
                     </p>
                   )}
 
                   {item.action === "EDIT" && item.affectedField === "dueAt" && (
                     <p>
-                      You edit {item.relatedModel.toLowerCase()} {item.affectedField} from {/* @ts-ignore */}
-                      <b>{format(item.oldState[item.affectedField], "dd.MM.yyyy")}</b> to {/* @ts-ignore */}
+                      You edit {item.relatedModel.toLowerCase()} {item.affectedField} from
+                      {/* @ts-ignore */}
+                      <b>{format(item.newState[item.affectedField], "dd.MM.yyyy")}</b> to
+                      {/* @ts-ignore */}
                       <b>{format(item.newState[item.affectedField], "dd.MM.yyyy")}</b>
                     </p>
                   )}
