@@ -66,8 +66,7 @@ const History = (props: { open: boolean; close: () => void; boardId: string }) =
 
                   {item.action === "EDIT" && item.affectedField !== "dueAt" && item.affectedField !== "listId" && (
                     <p>
-                      You edit {item.relatedModel.toLowerCase()} {item.affectedField} from
-                      {/* @ts-ignore */}
+                      You edit {item.relatedModel.toLowerCase()} {item.affectedField} from {/* @ts-ignore */}
                       <b>{item.newState[item.affectedField]}</b> to
                       {/* @ts-ignore */}
                       <b>{item.newState[item.affectedField]}</b>
@@ -76,8 +75,7 @@ const History = (props: { open: boolean; close: () => void; boardId: string }) =
 
                   {item.action === "EDIT" && item.affectedField === "dueAt" && (
                     <p>
-                      You edit {item.relatedModel.toLowerCase()} {item.affectedField} from
-                      {/* @ts-ignore */}
+                      You edit {item.relatedModel.toLowerCase()} {item.affectedField} from {/* @ts-ignore */}
                       <b>{format(item.newState[item.affectedField], "dd.MM.yyyy")}</b> to
                       {/* @ts-ignore */}
                       <b>{format(item.newState[item.affectedField], "dd.MM.yyyy")}</b>
