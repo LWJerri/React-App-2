@@ -24,7 +24,7 @@
     "@tabler/icons-react": "3.3.0",
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.1",
-    "cmdk": "0.2.1",
+    "cmdk": "1.0.0",
     "date-fns": "3.6.0",
     "openapi-fetch": "0.9.5",
     "openapi-typescript": "6.7.5",
