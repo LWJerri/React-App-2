@@ -6,8 +6,7 @@ WORKDIR /app
 
 COPY .npmrc apps/backend ./
 
-RUN corepack enable
-
+RUN npm i pnpm@latest -g
 RUN pnpm i
 
 RUN pnpm build
